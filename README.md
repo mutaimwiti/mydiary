@@ -1,5 +1,6 @@
 # mydiary
 
+Visit [MyDiary](https://mutaimwiti.github.io/mydiary/)
 
 MyDiary is an online journal where users can pen down their thoughts and feelings.
 
@@ -15,3 +16,5 @@ The application allows users to:
 5. Edit their diary entries
 6. Delete their diary entries
 7. View the number of entries they have so far.
+
+Visit the application here [MyDiary](https://mutaimwiti.github.io/mydiary/)
