@@ -139,29 +139,40 @@ const showEntry = (id) => {
 };
 
 const loadPage = (uri, url) => {
-    // nothing changes for the landing, sign up and sign in pages
-    if (uri === 'index.html' || uri === 'signup.html' || uri === 'signin.html') {
-        if (uri === 'signup.html' || uri === 'signin.html') {
-            if (getToken()) {
-                window.location = 'entries.html'
-            }
-        }
+    // nothing changes for the landing
+    if (uri === 'index.html') {
         return
     }
-    switch (uri) {
-        case 'entries.html':
-            fetchEntries();
-            break;
-        case 'create.html':
-            break;
-        case 'profile.html':
-            showProfile();
-            break;
+    const token = getToken();
+    if (uri === 'signup.html' || uri === 'signin.html') {
+        if (token) {
+            window.location = 'entries.html'
+        }
+        // hide logout link
+        $('#logout').hide();
+        return
     }
-    if (uri.startsWith('view.html')) {
-        let id = (new URL(url)).searchParams.get('id');
-        showEntry(id);
+    if (token) {
+        $('a[href^="sign"]').hide();
+        // hide sign in and sign up links
+        switch (uri) {
+            case 'entries.html':
+                fetchEntries();
+                break;
+            case 'create.html':
+                break;
+            case 'profile.html':
+                showProfile();
+                break;
+        }
+        if (uri.startsWith('view.html')) {
+            let id = (new URL(url)).searchParams.get('id');
+            showEntry(id);
+        }
+    } else {
+        window.location = 'signin.html'
     }
+
 };
 
 (() => {
