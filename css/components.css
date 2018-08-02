@@ -188,3 +188,11 @@ Entry - Rules applied to diary entry.
 .entry-card-edit{
     float: right;
 }
+
+#app_errors {
+    border-color: red;
+}
+
+#app_success {
+    border-color: green;
+}

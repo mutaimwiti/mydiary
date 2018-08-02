@@ -19,7 +19,13 @@ const checkAuth = (uri) => {
 
 const getElement = (id) => document.getElementById(id);
 
-const getValue = (id) => getElement(id).value;
+const getValue = (id) => {
+    let input = getElement(id);
+    if (input.value === '') {
+        return null;
+    }
+    return input.value;
+};
 
 const logout = (event) => {
     event.preventDefault();
@@ -27,6 +33,52 @@ const logout = (event) => {
         localStorage.removeItem('auth-token');
     }
     window.location = 'index.html';
+};
+
+const appErrors = $('#app_errors');
+
+const appSuccess = $('#app_success');
+
+const displaySuccess = (message) => {
+    appSuccess.empty();
+    appSuccess.append($('<ul>')
+        .append($('<li>')
+            .html(message)
+        )
+    );
+    appSuccess.show();
+};
+
+const displayError = (message) => {
+    appErrors.empty();
+    appErrors.append($('<ul>')
+        .append($('<li>')
+            .html(message)
+        )
+    );
+    appErrors.show();
+};
+
+const handleErrors = (code, payload) => {
+    appErrors.empty();
+    switch (code) {
+        case 422:
+            console.log('goof');
+            let errors = payload.errors;
+            appErrors.append($('<ul id="error_list">'));
+            let errorList = $('#error_list');
+            for (let field in errors) {
+                let fieldErrors = errors[field];
+                for (let i = 0; i < fieldErrors.length; i++) {
+                    errorList.append($('<li>').html(fieldErrors[i]))
+                }
+            }
+            break;
+        case 500:
+            appErrors.html('OOPS! :( Seems like something went wrong. Try again later.');
+            break;
+    }
+    appErrors.show();
 };
 
 const postSignUp = (body) => {
@@ -46,19 +98,14 @@ const postSignUp = (body) => {
         })
         .then(data => {
             if (responseOk) {
-                console.log('DISPLAY SUCCESSFULLY SIGNED IN')
+                displaySuccess('Successfully signed up. <a href="signin.html">Sign in</a> to get started!')
             } else {
-                switch (responseStatus) {
-                    case 422:
-                        console.log('DISPLAY ERRORS');
-                        break;
-                    case 409:
-                        console.log('USER EXISTS');
-                        break;
-                    case 500:
-                        console.log('OOPS :( SOMETHING WENT WRONG');
+                handleErrors(responseStatus, data);
+                if (responseStatus === 409) {
+                    displayError("A user with the same email address already exists.");
+                } else {
+                    handleErrors(responseStatus, data);
                 }
-                console.log(data)
             }
         })
         .catch((error) => {
@@ -92,21 +139,14 @@ const postLogin = (body) => {
         })
         .then(data => {
             if (responseOk) {
-                // Login successful
                 setToken(data.token);
                 window.location = 'entries.html';
             } else {
-                switch (responseStatus) {
-                    case 422:
-                        console.log('DISPLAY ERRORS');
-                        break;
-                    case 401:
-                        console.log('INVALID LOGIN');
-                        break;
-                    case 500:
-                        console.log('OOPS :( SOMETHING WENT WRONG');
+                if (responseStatus === 401) {
+                    displayError("Invalid email or password. Try again.")
+                } else {
+                    handleErrors(responseStatus, data);
                 }
-                console.log(data)
             }
         })
         .catch((error) => {
@@ -139,6 +179,13 @@ const showEntry = (id) => {
 };
 
 const loadPage = (uri, url) => {
+    appErrors.hide();
+    appSuccess.hide();
+    // hide any error or success messages when the user starts typing
+    $('input').keyup(() => {
+        appErrors.hide();
+        appSuccess.hide();
+    });
     // nothing changes for the landing
     if (uri === 'index.html') {
         return
