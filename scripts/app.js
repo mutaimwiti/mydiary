@@ -6,6 +6,8 @@ const getToken = () => localStorage.getItem('auth-token');
 
 const setToken = (value) => localStorage.setItem('auth-token', value);
 
+const clearToken = () => localStorage.removeItem('auth-token');
+
 const checkAuth = (uri) => {
     // the landing, sign up and sign in pages are the only unprotected pages
     if (uri === 'index.html' || uri === 'signup.html' || uri === 'signin.html') {
@@ -30,7 +32,7 @@ const getValue = (id) => {
 const logout = (event) => {
     event.preventDefault();
     if (getToken()) {
-        localStorage.removeItem('auth-token');
+        clearToken();
     }
     window.location = 'index.html';
 };
@@ -162,7 +164,57 @@ const login = (ev) => {
 };
 
 const fetchEntries = () => {
-    console.log('LOAD ENTRIES LISTING');
+    let responseOk = false;
+    let responseStatus = 0;
+    fetch(apiUrl('entries'), {
+        headers: {
+            "Content-Type": "application/json",
+            "x-access-token": getToken()
+        }
+    })
+        .then((response) => {
+            responseOk = response.ok;
+            responseStatus = response.status;
+            return response.json();
+        })
+        .then(data => {
+            if (responseOk) {
+                let count = data.count;
+                if (count){
+                    let entries = data.entries;
+                    for (let i = 0; i < count; i++) {
+                        $('#entries_display').append(
+                            $('<div class="entry-card">')
+                                .append($('<div class="row">')
+                                    .append($('<div class="col-m5">')
+                                        .append($('<a href="view.html?id=' + entries[i].id + '" class="btn btn-sm">')
+                                            .html(entries[i].title)
+                                        )
+                                    )
+                                    .append($('<div class="col-m5">')
+                                        .html(entries[i].created_at)
+                                    )
+                                    .append($('<div class="col-m2">')
+                                        .append($('<a href="edit.html" class="btn-small">Edit</a>'))
+                                    )
+                                )
+                        )
+                    }
+                } else {
+                    displaySuccess("You have no entries.")
+                }
+            } else {
+                if (responseStatus === 401) {
+                    clearToken();
+                    window.location = 'signup.html';
+                } else {
+                    handleErrors(responseStatus, data);
+                }
+            }
+        })
+        .catch((error) => {
+            console.log(error)
+        });
 };
 
 const createEntry = () => {
