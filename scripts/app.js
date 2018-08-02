@@ -217,17 +217,60 @@ const fetchEntries = () => {
         });
 };
 
+const showEntry = (id) => {
+    let entryDisplay = $('#entry_display');
+    entryDisplay.hide();
+    let responseOk = false;
+    let responseStatus = 0;
+    fetch(apiUrl('entries/' + id), {
+        headers: {
+            "Content-Type": "application/json",
+            "x-access-token": getToken()
+        }
+    })
+        .then((response) => {
+            responseOk = response.ok;
+            responseStatus = response.status;
+            return response.json();
+        })
+        .then(data => {
+                if (responseOk) {
+                    let entry = data.entry;
+                    entryDisplay.html(
+                        '<div class="panel">' +
+                        '   <div class="panel-body">' +
+                        '       <div class="entry">' +
+                        '           <a href="edit.html?id=' + entry.id + '" class="link-button">Edit</a>' +
+                        '           <h4>Date: ' + entry.created_at + '</h4>' +
+                        '           <h4>Title: ' + entry.title + '</h4>' +
+                        '           <p>' + entry.body + '</p>' +
+                        '           <a href="edit.html?id=' + entry.id + '" class="link-button">Edit</a>' +
+                        '           </div>' +
+                        '   </div>' +
+                        '</div>'
+                    );
+                    entryDisplay.show();
+                } else {
+                    if (responseStatus === 401) {
+                        clearToken();
+                        window.location = 'signin.html';
+                    } else {
+                        handleErrors(responseStatus, data);
+                    }
+                }
+            }
+        )
+        .catch((error) => {
+            console.log(error)
+        });
+};
+
 const createEntry = () => {
     console.log('EXPECT CREATION OF ENTRY');
 };
 
 const showProfile = () => {
     console.log('SHOW PROFILE');
-};
-
-const showEntry = (id) => {
-    console.log('Show ' + id);
-    console.log('SHOW SPECIFIC ENTRY');
 };
 
 const loadPage = (uri, url) => {
