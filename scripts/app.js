@@ -9,8 +9,8 @@ const setToken = (value) => localStorage.setItem('auth-token', value);
 const clearToken = () => localStorage.removeItem('auth-token');
 
 const checkAuth = (uri) => {
-    // the landing, sign up and sign in pages are the only unprotected pages
-    if (uri === 'index.html' || uri === 'signup.html' || uri === 'signin.html') {
+    // the sign up and sign in pages are not protected pages
+    if (uri === 'signup.html' || uri === 'signin.html') {
         return
     }
     if (!getToken()) {
@@ -327,10 +327,6 @@ const loadPage = (uri, url) => {
     clearMessages();
     // hide any error or success messages when the user starts typing
     $('input').keyup(() => clearMessages());
-    // nothing changes for the landing
-    if (uri === 'index.html') {
-        return
-    }
     const token = getToken();
     if (uri === 'signup.html' || uri === 'signin.html') {
         if (token) {
