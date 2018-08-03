@@ -199,7 +199,7 @@ const fetchEntries = () => {
                             '       </div>' +
                             '       <div class="col-m5">' + created_at + '</div>' +
                             '       <div class="col-m2">' +
-                            '           <a href="edit.html" class="btn-small">Edit</a>' +
+                            '           <a href="edit.html?id=' + id + '" class="btn-small">Edit</a>' +
                             '        </div>' +
                             '   </div>' +
                             '</div>'
