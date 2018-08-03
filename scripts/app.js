@@ -64,8 +64,9 @@ const displayError = (message) => {
 const handleErrors = (code, payload) => {
     appErrors.empty();
     switch (code) {
+        case 404:
+            return displayError('The entry was not found.');
         case 422:
-            console.log('goof');
             let errors = payload.errors;
             appErrors.append($('<ul id="error_list">'));
             let errorList = $('#error_list');
@@ -77,8 +78,7 @@ const handleErrors = (code, payload) => {
             }
             break;
         case 500:
-            appErrors.html('OOPS! :( Seems like something went wrong. Try again later.');
-            break;
+            return displayError('OOPS! :( Seems like something went wrong. Try again later.');
     }
     appErrors.show();
 };
@@ -192,7 +192,7 @@ const fetchEntries = () => {
                         let title = entries[i].title;
                         let created_at = entries[i].created_at;
                         $('#entries_display').append(
-                            '<div class="entry-card">' +
+                            '<div class="entry-card" id="entry_id_' + id + '">' +
                             '   <div class="row">' +
                             '       <div class="col-m4">' +
                             '           <a href="view.html?id=' + id + '" class="btn btn-sm">' + title + '</a>' +
@@ -247,7 +247,7 @@ const showEntry = (id) => {
                         '           <h4>Date: ' + entry.created_at + '</h4>' +
                         '           <h4>Title: ' + entry.title + '</h4>' +
                         '           <p>' + entry.body + '</p>' +
-                        '           <a href="edit.html?id=' + entry.id + '" class="link-button">Edit</a>' +
+                        '           <a href onclick="deleteEntry(event, ' + id + ')" class="link-button">Delete</a>' +
                         '           </div>' +
                         '   </div>' +
                         '</div>'
@@ -266,9 +266,53 @@ const showEntry = (id) => {
         });
 };
 
+const getUri = (href) => {
+    let location = href ? href : window.location.href;
+    return location.substr(location.lastIndexOf('/') + 1);
+};
+
+const clearMessages = () => {
+    appErrors.hide();
+    appSuccess.hide();
+};
+
 const deleteEntry = (ev, id) => {
     ev.preventDefault();
-    console.log(id)
+    clearMessages();
+    let responseOk = false;
+    let responseStatus = 0;
+    fetch(apiUrl('entries/' + id), {
+        method: "delete",
+        headers: {
+            "Content-Type": "application/json",
+            "x-access-token": getToken()
+        }
+    })
+        .then((response) => {
+            responseOk = response.ok;
+            responseStatus = response.status;
+            return response.json();
+        })
+        .then(data => {
+                if (responseOk) {
+                    if (getUri().startsWith('view.html')) {
+                        displaySuccess('The entry was deleted successfully');
+                        $('#entry_display').empty();
+                    } else {
+                        $('#entry_id_' +  id).remove();
+                    }
+                } else {
+                    if (responseStatus === 401) {
+                        requireSignIn();
+                    } else {
+                        handleErrors(responseStatus, data);
+                    }
+                }
+            }
+        )
+        .catch((error) => {
+            console.log(error)
+        });
 };
 
 const createEntry = () => {
@@ -280,13 +324,9 @@ const showProfile = () => {
 };
 
 const loadPage = (uri, url) => {
-    appErrors.hide();
-    appSuccess.hide();
+    clearMessages();
     // hide any error or success messages when the user starts typing
-    $('input').keyup(() => {
-        appErrors.hide();
-        appSuccess.hide();
-    });
+    $('input').keyup(() => clearMessages());
     // nothing changes for the landing
     if (uri === 'index.html') {
         return
@@ -325,7 +365,7 @@ const loadPage = (uri, url) => {
 
 (() => {
     const href = window.location.href;
-    const uri = href.substr(href.lastIndexOf('/') + 1);
+    const uri = getUri(href);
 
     // activate correct link
     const current = document.querySelector("a[href='" + uri + "']");
