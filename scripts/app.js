@@ -194,12 +194,13 @@ const fetchEntries = () => {
                         $('#entries_display').append(
                             '<div class="entry-card">' +
                             '   <div class="row">' +
-                            '       <div class="col-m5">' +
+                            '       <div class="col-m4">' +
                             '           <a href="view.html?id=' + id + '" class="btn btn-sm">' + title + '</a>' +
                             '       </div>' +
-                            '       <div class="col-m5">' + created_at + '</div>' +
-                            '       <div class="col-m2">' +
+                            '       <div class="col-m4">' + created_at + '</div>' +
+                            '       <div class="col-m4">' +
                             '           <a href="edit.html?id=' + id + '" class="btn-small">Edit</a>' +
+                            '           <a href onclick="deleteEntry(event, ' + id + ')" class="btn-small">Delete</a>' +
                             '        </div>' +
                             '   </div>' +
                             '</div>'
@@ -263,6 +264,11 @@ const showEntry = (id) => {
         .catch((error) => {
             console.log(error)
         });
+};
+
+const deleteEntry = (ev, id) => {
+    ev.preventDefault();
+    console.log(id)
 };
 
 const createEntry = () => {
