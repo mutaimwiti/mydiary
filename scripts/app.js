@@ -163,6 +163,11 @@ const login = (ev) => {
     postLogin({email: email, password: password})
 };
 
+const requireSignIn = () => {
+    clearToken();
+    window.location = 'signin.html';
+};
+
 const fetchEntries = () => {
     let responseOk = false;
     let responseStatus = 0;
@@ -180,33 +185,32 @@ const fetchEntries = () => {
         .then(data => {
             if (responseOk) {
                 let count = data.count;
-                if (count){
+                if (count) {
                     let entries = data.entries;
                     for (let i = 0; i < count; i++) {
+                        let id = entries[i].id;
+                        let title = entries[i].title;
+                        let created_at = entries[i].created_at;
                         $('#entries_display').append(
-                            $('<div class="entry-card">')
-                                .append($('<div class="row">')
-                                    .append($('<div class="col-m5">')
-                                        .append($('<a href="view.html?id=' + entries[i].id + '" class="btn btn-sm">')
-                                            .html(entries[i].title)
-                                        )
-                                    )
-                                    .append($('<div class="col-m5">')
-                                        .html(entries[i].created_at)
-                                    )
-                                    .append($('<div class="col-m2">')
-                                        .append($('<a href="edit.html" class="btn-small">Edit</a>'))
-                                    )
-                                )
-                        )
+                            '<div class="entry-card">' +
+                            '   <div class="row">' +
+                            '       <div class="col-m5">' +
+                            '           <a href="view.html?id=' + id + '" class="btn btn-sm">' + title + '</a>' +
+                            '       </div>' +
+                            '       <div class="col-m5">' + created_at + '</div>' +
+                            '       <div class="col-m2">' +
+                            '           <a href="edit.html" class="btn-small">Edit</a>' +
+                            '        </div>' +
+                            '   </div>' +
+                            '</div>'
+                        );
                     }
                 } else {
                     displaySuccess("You have no entries.")
                 }
             } else {
                 if (responseStatus === 401) {
-                    clearToken();
-                    window.location = 'signup.html';
+                    requireSignIn();
                 } else {
                     handleErrors(responseStatus, data);
                 }
@@ -218,8 +222,6 @@ const fetchEntries = () => {
 };
 
 const showEntry = (id) => {
-    let entryDisplay = $('#entry_display');
-    entryDisplay.hide();
     let responseOk = false;
     let responseStatus = 0;
     fetch(apiUrl('entries/' + id), {
@@ -236,7 +238,7 @@ const showEntry = (id) => {
         .then(data => {
                 if (responseOk) {
                     let entry = data.entry;
-                    entryDisplay.html(
+                    $('#entry_display').html(
                         '<div class="panel">' +
                         '   <div class="panel-body">' +
                         '       <div class="entry">' +
@@ -249,11 +251,9 @@ const showEntry = (id) => {
                         '   </div>' +
                         '</div>'
                     );
-                    entryDisplay.show();
                 } else {
                     if (responseStatus === 401) {
-                        clearToken();
-                        window.location = 'signin.html';
+                        requireSignIn();
                     } else {
                         handleErrors(responseStatus, data);
                     }
