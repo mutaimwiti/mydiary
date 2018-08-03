@@ -163,6 +163,11 @@ const login = (ev) => {
     postLogin({email: email, password: password})
 };
 
+const requireSignIn = () => {
+    clearToken();
+    window.location = 'signin.html';
+};
+
 const fetchEntries = () => {
     let responseOk = false;
     let responseStatus = 0;
@@ -180,33 +185,33 @@ const fetchEntries = () => {
         .then(data => {
             if (responseOk) {
                 let count = data.count;
-                if (count){
+                if (count) {
                     let entries = data.entries;
                     for (let i = 0; i < count; i++) {
+                        let id = entries[i].id;
+                        let title = entries[i].title;
+                        let created_at = entries[i].created_at;
                         $('#entries_display').append(
-                            $('<div class="entry-card">')
-                                .append($('<div class="row">')
-                                    .append($('<div class="col-m5">')
-                                        .append($('<a href="view.html?id=' + entries[i].id + '" class="btn btn-sm">')
-                                            .html(entries[i].title)
-                                        )
-                                    )
-                                    .append($('<div class="col-m5">')
-                                        .html(entries[i].created_at)
-                                    )
-                                    .append($('<div class="col-m2">')
-                                        .append($('<a href="edit.html" class="btn-small">Edit</a>'))
-                                    )
-                                )
-                        )
+                            '<div class="entry-card">' +
+                            '   <div class="row">' +
+                            '       <div class="col-m4">' +
+                            '           <a href="view.html?id=' + id + '" class="btn btn-sm">' + title + '</a>' +
+                            '       </div>' +
+                            '       <div class="col-m4">' + created_at + '</div>' +
+                            '       <div class="col-m4">' +
+                            '           <a href="edit.html?id=' + id + '" class="btn-small">Edit</a>' +
+                            '           <a href onclick="deleteEntry(event, ' + id + ')" class="btn-small">Delete</a>' +
+                            '        </div>' +
+                            '   </div>' +
+                            '</div>'
+                        );
                     }
                 } else {
                     displaySuccess("You have no entries.")
                 }
             } else {
                 if (responseStatus === 401) {
-                    clearToken();
-                    window.location = 'signup.html';
+                    requireSignIn();
                 } else {
                     handleErrors(responseStatus, data);
                 }
@@ -217,17 +222,61 @@ const fetchEntries = () => {
         });
 };
 
+const showEntry = (id) => {
+    let responseOk = false;
+    let responseStatus = 0;
+    fetch(apiUrl('entries/' + id), {
+        headers: {
+            "Content-Type": "application/json",
+            "x-access-token": getToken()
+        }
+    })
+        .then((response) => {
+            responseOk = response.ok;
+            responseStatus = response.status;
+            return response.json();
+        })
+        .then(data => {
+                if (responseOk) {
+                    let entry = data.entry;
+                    $('#entry_display').html(
+                        '<div class="panel">' +
+                        '   <div class="panel-body">' +
+                        '       <div class="entry">' +
+                        '           <a href="edit.html?id=' + entry.id + '" class="link-button">Edit</a>' +
+                        '           <h4>Date: ' + entry.created_at + '</h4>' +
+                        '           <h4>Title: ' + entry.title + '</h4>' +
+                        '           <p>' + entry.body + '</p>' +
+                        '           <a href="edit.html?id=' + entry.id + '" class="link-button">Edit</a>' +
+                        '           </div>' +
+                        '   </div>' +
+                        '</div>'
+                    );
+                } else {
+                    if (responseStatus === 401) {
+                        requireSignIn();
+                    } else {
+                        handleErrors(responseStatus, data);
+                    }
+                }
+            }
+        )
+        .catch((error) => {
+            console.log(error)
+        });
+};
+
+const deleteEntry = (ev, id) => {
+    ev.preventDefault();
+    console.log(id)
+};
+
 const createEntry = () => {
     console.log('EXPECT CREATION OF ENTRY');
 };
 
 const showProfile = () => {
     console.log('SHOW PROFILE');
-};
-
-const showEntry = (id) => {
-    console.log('Show ' + id);
-    console.log('SHOW SPECIFIC ENTRY');
 };
 
 const loadPage = (uri, url) => {
