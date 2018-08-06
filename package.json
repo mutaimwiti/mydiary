@@ -1,0 +1,29 @@
+{
+  "name": "mydiary",
+  "version": "1.0.0",
+  "description": "Visit [MyDiary](https://mutaimwiti.github.io/mydiary/)",
+  "main": "webpack.config.js",
+  "dependencies": {},
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-env": "^1.7.0",
+    "webpack": "^4.16.5"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mutaimwiti/mydiary.git"
+  },
+  "keywords": [
+    "mydiary"
+  ],
+  "author": "Mutai Mwiti",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mutaimwiti/mydiary/issues"
+  },
+  "homepage": "https://github.com/mutaimwiti/mydiary#readme"
+}
