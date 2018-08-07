@@ -20,26 +20,23 @@ export const showEntries = () => {
         })
         .then(data => {
             if (responseOk) {
-                let count = data.count;
+                let {entries, count} = data;
                 if (count) {
-                    let entries = data.entries;
                     for (let i = 0; i < count; i++) {
-                        let id = entries[i].id;
-                        let title = entries[i].title;
-                        let created_at = entries[i].created_at;
+                        let {id, title, created_at} = entries[i];
                         $('#entries_display').append(
-                            '<div class="entry-card" id="entry_id_' + id + '">' +
-                            '   <div class="row">' +
-                            '       <div class="col-m4">' +
-                            '           <a href="view.html?id=' + id + '" class="btn btn-sm">' + title + '</a>' +
-                            '       </div>' +
-                            '       <div class="col-m4">' + created_at + '</div>' +
-                            '       <div class="col-m4">' +
-                            '           <a href="edit.html?id=' + id + '" class="btn-small">Edit</a>' +
-                            '           <a href data-entry="' + id + '" class="delete btn-small">Delete</a>' +
-                            '        </div>' +
-                            '   </div>' +
-                            '</div>'
+                            `<div class="entry-card" id="entry_id_${id}">
+                                <div class="row">
+                                    <div class="col-m4">
+                                        <a href="view.html?id=${id}" class="btn btn-sm">${title}</a>
+                                    </div>
+                                    <div class="col-m4">${created_at}</div>
+                                    <div class="col-m4">
+                                        <a href="edit.html?id=${id}" class="btn-small">Edit</a>
+                                        <a href data-entry="${id}" class="delete btn-small">Delete</a>
+                                    </div>
+                                </div>
+                            </div>`
                         );
                     }
                     registerDeleteListener();
