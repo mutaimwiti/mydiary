@@ -1,10 +1,10 @@
+import {apiUrl} from "../api";
+import {getUri} from "../router";
 import {getElement} from "../dom";
 import {clearMessages} from "../flash";
-import {getUri} from "../page";
-import {displaySuccess, handleErrors} from "../flash";
-import {requireSignIn} from "../auth/client";
 import {getToken} from "../auth/client";
-import {apiUrl} from "../api";
+import {requireSignIn} from "../auth/client";
+import {displaySuccess, handleErrors} from "../flash";
 
 const deleteEntry = (id) => {
     let responseOk = false;

@@ -1,8 +1,8 @@
 module.exports = {
-    entry: './scripts/main.js',
+    entry: './src/main.js',
     output: {
         path: __dirname,
-        filename: './scripts/app.js'
+        filename: './app.js'
     },
     module: {
         rules: [{

@@ -1,4 +1,6 @@
 import {getElement} from "../dom";
+import {getUri, redirect} from "../router";
+
 
 export const getToken = () => localStorage.getItem('auth-token');
 
@@ -6,25 +8,26 @@ export const setToken = (value) => localStorage.setItem('auth-token', value);
 
 export const clearToken = () => localStorage.removeItem('auth-token');
 
-export const checkAuth = (uri) => {
+export const checkAuth = () => {
+    let uri = getUri();
     // the sign up and sign in pages are not protected pages
     if (uri === 'signup.html' || uri === 'signin.html') {
         return
     }
     if (!getToken()) {
         // always require login if token is missing
-        window.location.href = 'signin.html';
+        redirect('signin.html');
     }
 };
 
 export const requireSignIn = () => {
     clearToken();
-    window.location = 'signin.html';
+    redirect('signin.html');
 };
 
 const logout = () => {
     clearToken();
-    window.location = 'index.html';
+    redirect('index.html');
 };
 
 export const registerLogoutListener = () => {

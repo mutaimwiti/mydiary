@@ -1,6 +1,4 @@
-const appErrors = $('#app_errors');
-
-const appSuccess = $('#app_success');
+let appErrors, appSuccess;
 
 export const clearMessages = () => {
     appErrors.hide();
@@ -30,8 +28,6 @@ export const displayError = (message) => {
 export const handleErrors = (code, payload) => {
     appErrors.empty();
     switch (code) {
-        case 404:
-            return displayError('The entry was not found.');
         case 422:
             let errors = payload.errors;
             appErrors.append($('<ul id="error_list">'));
@@ -43,8 +39,16 @@ export const handleErrors = (code, payload) => {
                 }
             }
             break;
-        case 500:
-            return displayError('OOPS! :( Seems like something went wrong. Try again later.');
+        default:
+            let message = 'OOPS! :( Seems like something went wrong. Try again later.';
+            displayError(payload.message ? payload.message: message);
     }
     appErrors.show();
+};
+
+export const registerMessaging = () => {
+    appErrors = $('#app_errors');
+    appSuccess = $('#app_success');
+    clearMessages();
+    $('input').keyup(() => clearMessages());
 };

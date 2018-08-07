@@ -1,8 +1,8 @@
 import {apiUrl} from "../api";
 import {getToken} from "../auth/client";
 import {requireSignIn} from "../auth/client";
-import {displaySuccess, handleErrors} from "../flash";
 import {registerDeleteListener} from "./delete";
+import {displaySuccess, handleErrors} from "../flash";
 
 export const showEntries = () => {
     let responseOk = false;
