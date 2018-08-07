@@ -1,5 +1,6 @@
 import {apiUrl} from "../api";
 import {setToken} from "./client";
+import {redirectToEntries} from "../router";
 import {getElement, getValue} from "../dom";
 import {displayError, handleErrors} from "../flash";
 
@@ -21,7 +22,7 @@ const postSignIn = (body) => {
         .then(data => {
             if (responseOk) {
                 setToken(data.token);
-                window.location = 'entries.html';
+                redirectToEntries();
             } else {
                 if (responseStatus === 401) {
                     displayError("Invalid email or password. Try again.")

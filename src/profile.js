@@ -1,3 +1,3 @@
-const showProfile = () => {
+export const showProfile = () => {
     console.log('SHOW PROFILE');
 };

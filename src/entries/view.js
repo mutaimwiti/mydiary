@@ -1,8 +1,8 @@
-import {registerDeleteListener} from "./delete";
-import {requireSignIn} from "../auth/client";
-import {handleErrors} from "../flash";
 import {apiUrl} from "../api";
+import {handleErrors} from "../flash";
 import {getToken} from "../auth/client";
+import {requireSignIn} from "../auth/client";
+import {registerDeleteListener} from "./delete";
 
 export const showEntry = (id) => {
     let responseOk = false;
