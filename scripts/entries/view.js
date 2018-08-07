@@ -20,19 +20,19 @@ export const showEntry = (id) => {
         })
         .then(data => {
                 if (responseOk) {
-                    let entry = data.entry;
+                    let {id, title, body, created_at} = data.entry;
                     $('#entry_display').html(
-                        '<div class="panel">' +
-                        '   <div class="panel-body">' +
-                        '       <div class="entry">' +
-                        '           <a href="edit.html?id=' + entry.id + '" class="link-button">Edit</a>' +
-                        '           <h4>Date: ' + entry.created_at + '</h4>' +
-                        '           <h4>Title: ' + entry.title + '</h4>' +
-                        '           <p>' + entry.body + '</p>' +
-                        '           <a href data-entry="' + id + '" class="delete link-button">Delete</a>' +
-                        '           </div>' +
-                        '   </div>' +
-                        '</div>'
+                        `<div class="panel">
+                            <div class="panel-body">
+                                <div class="entry">
+                                    <a href="edit.html?id=${id}" class="link-button">Edit</a>
+                                    <h4>Date: ${created_at}</h4>
+                                    <h4>Title: ${title}</h4>
+                                    <p>${body}</p>
+                                    <a href data-entry="${id}" class="delete link-button">Delete</a>
+                                </div>
+                           </div>
+                        </div>`
                     );
                     registerDeleteListener();
                 } else {
