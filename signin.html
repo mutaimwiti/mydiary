@@ -19,7 +19,7 @@
         <li><a href="entries.html">My entries</a></li>
         <li><a href="create.html">Write</a></li>
         <li><a href="profile.html">Profile</a></li>
-        <li class="right"><a href onclick="logout(event)" id="logout">Logout</a></li>
+        <li class="right"><a href id="logout">Logout</a></li>
         <li class="right"><a href="signin.html">Sign in</a></li>
         <li class="right"><a href="signup.html">Sign up</a></li>
     </ul>
@@ -32,7 +32,7 @@
             <div class="panel">
                 <div class="panel-heading">Sign in</div>
                 <div class="panel-body">
-                    <form>
+                    <form id="login_form">
                         <div class="row">
                             <div class="col-m4">
                                 <label for="email">Email</label>
@@ -55,7 +55,7 @@
                         </div>
                         <div class="row">
                             <div class="col-m12" style="float: right">
-                                <input type="submit" value="Sign in" onclick="login(event)">
+                                <input type="submit" value="Sign in">
                             </div>
                         </div>
                     </form>
