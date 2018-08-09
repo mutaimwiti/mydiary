@@ -1,17 +1,21 @@
 module.exports = {
-    entry: './src/main.js',
+    entry: {
+        app: './src/app.js',
+        vendor: './src/vendor.js'
+    },
     output: {
-        path: __dirname,
-        filename: './app.js'
+        filename: './[name].js'
     },
     module: {
-        rules: [{
-            test: /\.js$/,
-            exclude: /node_modules/,
-            loader: 'babel-loader',
-            query: {
-                presets: ['env']
+        rules: [
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loader: 'babel-loader',
+                query: {
+                    presets: ['env']
+                }
             }
-        }]
+        ]
     }
 };

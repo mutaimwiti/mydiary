@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "Visit [MyDiary](https://mutaimwiti.github.io/mydiary/)",
   "main": "webpack.config.js",
-  "dependencies": {},
+  "dependencies": {
+    "jquery": "^3.3.1"
+  },
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
