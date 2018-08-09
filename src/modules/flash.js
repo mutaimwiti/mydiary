@@ -1,3 +1,5 @@
+import {requireSignIn} from "./auth/client";
+
 let appErrors, appSuccess;
 
 export const clearMessages = () => {
@@ -28,6 +30,9 @@ export const displayError = (message) => {
 export const handleErrors = (code, payload) => {
     appErrors.empty();
     switch (code) {
+        case 401:
+            requireSignIn();
+            break;
         case 422:
             let errors = payload.errors;
             appErrors.append($('<ul id="error_list">'));

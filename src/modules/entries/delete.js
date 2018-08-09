@@ -1,46 +1,20 @@
-import {apiUrl} from "../api";
+import api from "../api";
 import {getUri} from "../router";
 import {getElement} from "../dom";
 import {clearMessages} from "../flash";
-import {getToken} from "../auth/client";
-import {requireSignIn} from "../auth/client";
 import {displaySuccess, handleErrors} from "../flash";
 
-const deleteEntry = (id) => {
-    let responseOk = false;
-    let responseStatus = 0;
-    fetch(apiUrl('entries/' + id), {
-        method: "delete",
-        headers: {
-            "Content-Type": "application/json",
-            "x-access-token": getToken()
+const responseHandler = (ok, code, data, id) => {
+    if (ok) {
+        if (getUri().startsWith('view.html')) {
+            displaySuccess('The entry was deleted successfully');
+            $('#entry_display').empty();
+        } else {
+            $('#entry_id_' +  id).remove();
         }
-    })
-        .then((response) => {
-            responseOk = response.ok;
-            responseStatus = response.status;
-            return response.json();
-        })
-        .then(data => {
-                if (responseOk) {
-                    if (getUri().startsWith('view.html')) {
-                        displaySuccess('The entry was deleted successfully');
-                        $('#entry_display').empty();
-                    } else {
-                        $('#entry_id_' +  id).remove();
-                    }
-                } else {
-                    if (responseStatus === 401) {
-                        requireSignIn();
-                    } else {
-                        handleErrors(responseStatus, data);
-                    }
-                }
-            }
-        )
-        .catch((error) => {
-            console.log(error)
-        });
+    } else {
+        handleErrors(code, data);
+    }
 };
 
 export const registerDeleteListener = () => {
@@ -48,7 +22,8 @@ export const registerDeleteListener = () => {
     Array.from(getElement('.delete')).forEach((elem) => {
         elem.addEventListener('click', (ev) => {
             ev.preventDefault();
-            deleteEntry(ev.target.dataset.entry);
+            let id = ev.target.dataset.entry;
+            api.delete(`entries/${id}`, responseHandler);
         });
     });
 };

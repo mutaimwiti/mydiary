@@ -1,45 +1,28 @@
-import {apiUrl} from "../api";
+import api from "../api";
 import {setToken} from "./client";
 import {redirectToEntries} from "../router";
 import {getElement, getValue} from "../dom";
 import {displayError, handleErrors} from "../flash";
 
-const postSignIn = (body) => {
-    let responseOk = false;
-    let responseStatus = 0;
-    fetch(apiUrl('login'), {
-        method: "post",
-        body: JSON.stringify(body),
-        headers: {
-            "Content-Type": "application/json"
+const responseHandler = (ok, code, data) => {
+    if (ok) {
+        setToken(data.token);
+        redirectToEntries();
+    } else {
+        if (code === 401) {
+            displayError(data.message);
+        } else {
+            handleErrors(code, data);
         }
-    })
-        .then((response) => {
-            responseOk = response.ok;
-            responseStatus = response.status;
-            return response.json();
-        })
-        .then(data => {
-            if (responseOk) {
-                setToken(data.token);
-                redirectToEntries();
-            } else {
-                if (responseStatus === 401) {
-                    displayError("Invalid email or password. Try again.")
-                } else {
-                    handleErrors(responseStatus, data);
-                }
-            }
-        })
-        .catch((error) => {
-            console.log(error)
-        });
+    }
 };
 
 const signIn = () => {
-    let email = getValue('email');
-    let password = getValue('password');
-    postSignIn({email: email, password: password})
+    let body = {
+        email: getValue('email'),
+        password: getValue('password')
+    };
+    api.post('login', body, responseHandler, false);
 };
 
 export const registerLoginListener = () => {
