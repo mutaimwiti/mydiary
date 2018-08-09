@@ -7,7 +7,7 @@ export const hideSignUpAndSignInLinks = () => {
 };
 
 export const activateLocationLink = () => {
-    const uri = (getUri() === '') ? 'index.html' : getUri();
+    const uri = (getUri() === '') ? './' : getUri();
     const current = document.querySelector(`a[href="${uri}"]`);
     if (current !== null) {
         current.className += ' active';
