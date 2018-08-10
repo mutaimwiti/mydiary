@@ -15,4 +15,4 @@ const getAddress = () => {
 
 export const redirect = (page ='index.html') => window.location = `${getAddress()}/${page}`;
 
-export const redirectToEntries = (page = 'index.html') => redirect(`entries/${page}`);
+export const redirectToEntries = (page = '') => redirect(`entries/${page}`);
