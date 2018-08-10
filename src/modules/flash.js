@@ -54,6 +54,5 @@ export const handleErrors = (code, payload) => {
 export const registerMessaging = () => {
     appErrors = $('#app_errors');
     appSuccess = $('#app_success');
-    clearMessages();
     $('input').keyup(() => clearMessages());
 };
