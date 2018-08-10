@@ -45,7 +45,7 @@ export const loadPage = () => {
     if (token) {
         registerLogoutListener();
         hideSignUpAndSignInLinks();
-        if (url.includes('/entry/')) {
+        if (url.includes('/entries/')) {
             return loadEntryPage(uri, url);
         }
         else if (uri === 'profile.html') {
