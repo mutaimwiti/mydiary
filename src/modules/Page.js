@@ -1,4 +1,4 @@
-import Link from "./Link";
+import DOM from "./DOM";
 import Router from "./Router";
 import Auth from "./auth/Auth";
 import Profile from "./Profile";
@@ -12,14 +12,13 @@ import CreateEntry from "./entries/Create";
 
 export default class Page {
     static load() {
-        Link.activateCurrent();
-        let uri = Router.uri, auth = Auth.get();
+        const uri = Router.uri, auth = Auth.get();
+        this.activatePageLink(uri);
         if (uri === 'signup.html' || uri === 'signin.html') {
             return auth ? Router.redirectToEntries() : this.loadAuthPage(uri);
         }
         if (auth) {
             Logout.listen();
-            Link.hideSignUpSignIn();
             if (Router.url.includes('/entries/')) {
                 return this.loadEntryPage(uri);
             }
@@ -32,6 +31,10 @@ export default class Page {
         }
     }
 
+    static activatePageLink(uri) {
+        DOM.addClass(`a[href="${(uri === '') ? './' : uri}"]`, 'active');
+    }
+
     static loadAuthPage(uri) {
         switch (uri) {
             case 'signin.html':
@@ -40,7 +43,6 @@ export default class Page {
             case 'signup.html':
                 SignUp.listen();
         }
-        Link.hideLogout();
     }
 
     static loadEntryPage(uri) {
