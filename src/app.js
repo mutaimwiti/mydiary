@@ -1,11 +1,7 @@
-import {loadPage} from './modules/page'
-import {checkAuth} from './modules/auth/client'
-import {registerMessaging} from "./modules/flash";
-import {activateLocationLink} from "./modules/links";
+import Page from './modules/Page'
+import Auth from "./modules/auth/Auth";
 
 (() => {
-    checkAuth();
-    registerMessaging();
-    activateLocationLink();
-    loadPage();
+    Auth.check();
+    Page.load();
 })();
