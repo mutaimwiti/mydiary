@@ -8,8 +8,8 @@ import Message from "../Message";
 export default class Delete {
     static init() {
         DOM.registerListener('.delete', 'click', this);
-        this.NOT_FOUND = {type: Message.ERROR, message: 'The entry no longer exists.'};
-        this.DONE = {type: Message.SUCCESS, message: 'Your entry was deleted successfully.'};
+        this.NOT_FOUND = 'The entry no longer exists.';
+        this.DONE = 'Your entry was deleted successfully.';
     }
 
     static action(event) {
@@ -29,9 +29,9 @@ export default class Delete {
 
     static handleView(ok, code) {
         if (ok) {
-            Router.flash({message: this.DONE}).redirectToEntries();
+            Router.flash({message: {type: Message.SUCCESS, message: this.DONE}}).redirectToEntries();
         } else if (code === 404) {
-            Router.flash({message: this.NOT_FOUND}).redirectToEntries();
+            Router.flash({message: {type: Message.ERROR, message: this.NOT_FOUND}}).redirectToEntries();
         }
     }
 
