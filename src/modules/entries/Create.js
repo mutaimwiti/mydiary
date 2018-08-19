@@ -7,7 +7,7 @@ import Message from "../Message";
 export default class Create {
     static init() {
         DOM.registerListener('#create_entry_form', 'submit', this);
-        this.DONE = {type: Message.SUCCESS, message: 'Your entry was created successfully.'};
+        this.DONE = 'Your entry was created successfully.';
     }
 
     static action() {
@@ -16,7 +16,7 @@ export default class Create {
 
     static handle(ok, code, data) {
         if (ok) {
-            Router.flash({message: this.DONE}).redirectToEntries();
+            Router.flash({message: {type: Message.SUCCESS, message: this.DONE}}).redirectToEntries();
         } else {
             Error.handle(code, data);
         }
