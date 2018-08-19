@@ -1,5 +1,5 @@
 export default class Create {
-    static listen() {
+    static init() {
 
     }
 

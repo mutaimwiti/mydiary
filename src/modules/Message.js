@@ -1,16 +1,23 @@
-class Flash {
+class Message {
     static init() {
+        this.ERROR = 'error';
+        this.SUCCESS = 'success';
         this.errorBox = $('#app_errors');
         this.successBox = $('#app_success');
         $('input').keyup(() => this.clear());
+        $('form').submit(() => this.clear());
     }
 
     static success(message) {
-        this[this.type(message)](this.successBox, message);
+        if (message) {
+            this[this.type(message)](this.successBox, message);
+        }
     }
 
     static error(message) {
-        this[this.type(message)](this.errorBox, message);
+        if (message) {
+            this[this.type(message)](this.errorBox, message);
+        }
     }
 
     static type(message) {
@@ -36,6 +43,6 @@ class Flash {
     }
 }
 
-Flash.init();
+Message.init();
 
-export default Flash;
+export default Message;

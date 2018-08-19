@@ -1,21 +1,22 @@
 import API from "../API";
 import DOM from "../DOM";
 import Index from "./Index";
-import Flash from "../Flash";
 import Error from "../Error";
 import Router from "../Router";
+import Message from "../Message";
 
 export default class Delete {
-    static listen () {
+    static init() {
         DOM.registerListener('.delete', 'click', this);
+        this.NOT_FOUND = {type: Message.ERROR, message: 'The entry no longer exists.'};
+        this.DONE = {type: Message.SUCCESS, message: 'Your entry was deleted successfully.'};
     }
 
     static action(event) {
-        let id = event.target.dataset.entry;
-        API.delete(`entries/${id}`, this);
+        API.delete(`entries/${event.target.dataset.entry}`, this);
     }
 
-    static handle (ok, code, data, id) {
+    static handle(ok, code, data, id) {
         if (Router.uri.startsWith('view.html')) {
             this.handleView(ok, code);
         } else {
@@ -28,22 +29,19 @@ export default class Delete {
 
     static handleView(ok, code) {
         if (ok) {
-            Flash.success('The entry was deleted successfully');
-            $('#entry_display').empty();
-        } else {
-            if (code === 404) {
-                Router.redirectToEntries();
-            }
+            Router.flash({message: this.DONE}).redirectToEntries();
+        } else if (code === 404) {
+            Router.flash({message: this.NOT_FOUND}).redirectToEntries();
         }
     }
 
     static handleIndex(ok, code, id) {
         if (ok) {
             Index.remove(id);
-        } else {
-            if (code === 404) {
-                Index.remove(id);
-            }
+            Message.success(this.DONE);
+        } else if (code === 404) {
+            Index.remove(id);
+            Message.error(this.NOT_FOUND);
         }
     }
 }
