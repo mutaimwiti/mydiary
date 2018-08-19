@@ -1,6 +1,7 @@
 import DOM from "./DOM";
 import Router from "./Router";
 import Auth from "./auth/Auth";
+import Message from "./Message";
 import Profile from "./Profile";
 import Logout from "./auth/Logout";
 import SignIn from "./auth/SignIn";
@@ -10,55 +11,71 @@ import EditEntry from "./entries/Edit";
 import ListEntries from "./entries/Index";
 import CreateEntry from "./entries/Create";
 
-export default class Page {
+class Page {
+    static init() {
+        this.URI = Router.uri;
+        this.URL = Router.url;
+        this.AUTH = Auth.get();
+        this.MESSAGE = Router.message();
+        this.IS_AUTH_PAGE = this.URI === 'signup.html' || this.URI === 'signin.html';
+        this.preparePage();
+    }
+
+    static preparePage() {
+        // activate page link
+        DOM.addClass(`a[href="${(this.URI === '') ? './' : this.URI}"]`, 'active');
+        // display flash message
+        if (this.MESSAGE) {
+            Message[this.MESSAGE.type](this.MESSAGE.message);
+        }
+    }
+
     static load() {
-        const uri = Router.uri, auth = Auth.get();
-        this.activatePageLink(uri);
-        if (uri === 'signup.html' || uri === 'signin.html') {
-            return auth ? Router.redirectToEntries() : this.loadAuthPage(uri);
-        }
-        if (auth) {
-            Logout.listen();
-            if (Router.url.includes('/entries/')) {
-                return this.loadEntryPage(uri);
-            }
-            else if (uri === 'profile.html') {
-                return Profile.get();
-            }
-            Router.redirect();
+        if (this.IS_AUTH_PAGE) {
+            this.AUTH ? Router.redirectToEntries() : this.loadAuthPage();
         } else {
-            Auth.require();
+            if (this.AUTH) {
+                Logout.init();
+                if (this.URL.includes('/entries/')) {
+                    this.loadEntryPage();
+                }
+                else if (this.URI === 'profile.html') {
+                    Profile.init();
+                }
+            } else {
+                Auth.require();
+            }
         }
     }
 
-    static activatePageLink(uri) {
-        DOM.addClass(`a[href="${(uri === '') ? './' : uri}"]`, 'active');
-    }
-
-    static loadAuthPage(uri) {
-        switch (uri) {
+    static loadAuthPage() {
+        switch (this.URI) {
             case 'signin.html':
-                SignIn.listen();
+                SignIn.init();
                 break;
             case 'signup.html':
-                SignUp.listen();
+                SignUp.init();
         }
     }
 
-    static loadEntryPage(uri) {
-        switch (uri) {
+    static loadEntryPage() {
+        switch (this.URI) {
             case '':
-                return ListEntries.get();
+                ListEntries.init();
+                break;
             case 'create.html':
-                return CreateEntry.listen();
+                CreateEntry.init();
+                break;
             default:
-                if (uri.startsWith('view.html')) {
-                    return ViewEntry.get(Router.param('id'));
-                }
-                if (uri.startsWith('edit.html')) {
-                    return EditEntry.listen();
+                if (this.URI.startsWith('view.html')) {
+                    return ViewEntry.init(Router.param('id'));
+                } else if (this.URI.startsWith('edit.html')) {
+                    return EditEntry.init();
                 }
         }
-        Router.redirect();
     }
 }
+
+Page.init();
+
+export default Page;

@@ -1,5 +1,5 @@
 export default class Edit {
-    static listen() {
+    static init() {
 
     }
 

@@ -1,4 +1,3 @@
-import Flash from "./Flash";
 import Auth from "./auth/Auth";
 
 export default class API {
@@ -26,7 +25,6 @@ export default class API {
     messages are cleared.
      */
     static json(method, uri, body, context, auth = true) {
-        Flash.clear();
         let options = {};
         options.method = method;
         if (method !== 'get' || body !== null) {

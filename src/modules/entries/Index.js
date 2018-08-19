@@ -1,11 +1,11 @@
 import API from "../API";
 import DOM from "../DOM";
 import Error from "../Error";
-import Flash from "../Flash";
 import Delete from "./Delete";
+import Message from "../Message";
 
 export default class Index {
-    static get() {
+    static init() {
         API.get('entries', this);
     }
 
@@ -14,9 +14,9 @@ export default class Index {
             let {entries, count} = data;
             if (count) {
                 this.display(entries, count);
-                Delete.listen();
+                Delete.init();
             } else {
-                Flash.success("You have no entries.");
+                Message.success("You have no entries.");
             }
         } else {
             Error.handle(code, data);

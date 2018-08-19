@@ -1,16 +1,21 @@
+import Store from "../Store";
 import Router from "../Router";
 
-export default class Auth {
+class Auth {
+    static init() {
+        this.KEY = 'auth-token';
+    }
+
     static get() {
-        return localStorage.getItem('auth-token');
+        return Store.get(this.KEY);
     }
 
     static set(token) {
-        localStorage.setItem('auth-token', token);
+        Store.set(this.KEY, token);
     }
 
     static clear() {
-        localStorage.removeItem('auth-token');
+        Store.remove(this.KEY);
     }
 
     static check() {
@@ -32,3 +37,7 @@ export default class Auth {
         Router.redirect('index.html');
     }
 }
+
+Auth.init();
+
+export default Auth;

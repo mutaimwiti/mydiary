@@ -1,5 +1,5 @@
 export default class Profile {
-    static get() {
+    static init() {
 
     }
 }

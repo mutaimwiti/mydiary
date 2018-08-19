@@ -1,13 +1,20 @@
 import API from "../API";
 import DOM from "../DOM";
 import Auth from "./Auth";
-import Flash from "../Flash";
 import Error from "../Error";
 import Router from "../Router";
+import Message from "../Message";
 
 export default class SignIn {
-    static listen() {
+    static init() {
         DOM.registerListener('#login_form', 'submit', this);
+        this.flash(Router.data());
+    }
+
+    static flash(data) {
+        if (data) {
+            DOM.setValue('email', data.email);
+        }
     }
 
     static action() {
@@ -20,7 +27,7 @@ export default class SignIn {
             Router.redirectToEntries();
         } else {
             if (code === 401) {
-                Flash.error(data.message);
+                Message.error(data.message);
             } else {
                 Error.handle(code, data);
             }

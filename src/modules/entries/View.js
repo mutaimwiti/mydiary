@@ -1,17 +1,17 @@
 import API from "../API";
+import DOM from "../DOM";
 import Error from "../Error";
 import Delete from "./Delete";
-import DOM from "../DOM";
 
 export default class View {
-    static get(id) {
+    static init(id) {
         API.get(`entries/${id}`, this);
     }
 
     static handle(ok, code, data) {
         if (ok) {
             this.display(data.entry);
-            Delete.listen();
+            Delete.init();
         } else {
             Error.handle(code, data);
         }

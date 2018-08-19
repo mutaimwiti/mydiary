@@ -9,6 +9,10 @@ export default class DOM {
         }
     }
 
+    static setValue(id, value) {
+        this.getElement('#' + id).value = value;
+    }
+
     static getValue(id) {
         let input = this.getElement('#' + id);
         return input.value === '' ? null : input.value;

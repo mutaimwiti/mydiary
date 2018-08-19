@@ -1,5 +1,5 @@
-import Flash from "./Flash";
 import Auth from "./auth/Auth";
+import Message from "./Message";
 
 export default class Error {
     static handle(code, payload) {
@@ -15,16 +15,18 @@ export default class Error {
         }
     }
 
-    static validation(payload) {
-        let errors = [];
-        for (let field of payload.errors) {
-            errors.push(payload.errors[field])
+    static validation({errors}) {
+        let allErrors = [];
+        for (let fieldErrors of Object.values(errors)) {
+            for (let error of fieldErrors) {
+                allErrors.push(error)
+            }
         }
-        Flash.error(errors);
+        Message.error(allErrors);
     }
 
     static generic(payload) {
-        Flash.error(payload.message ? payload.message : this.fallback);
+        Message.error(payload.message ? payload.message : this.fallback);
     }
 
     static get fallback() {
