@@ -2,10 +2,11 @@ import API from "../API";
 import DOM from "../DOM";
 import Error from "../Error";
 import Delete from "./Delete";
+import Router from "../Router";
 
 export default class View {
-    static init(id) {
-        API.get(`entries/${id}`, this);
+    static init() {
+        API.get(`entries/${Router.param('id')}`, this);
     }
 
     static handle(ok, code, data) {

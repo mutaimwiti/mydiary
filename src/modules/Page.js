@@ -68,7 +68,7 @@ class Page {
                 break;
             default:
                 if (this.URI.startsWith('view.html')) {
-                    return ViewEntry.init(Router.param('id'));
+                    return ViewEntry.init();
                 } else if (this.URI.startsWith('edit.html')) {
                     return EditEntry.init();
                 }
