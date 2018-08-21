@@ -63,7 +63,7 @@ export default class DOM {
         // credit to http://www.ajaxload.info/ for the generation of custom loading gif
         $.blockUI({
             css: {backgroundColor: '#322f5a', color: '#fff'},
-            message: `<h5><img src="../../images/loading.gif"/> ${message}...</h5>`
+            message: `<h5><img src="/images/loading.gif"/> ${message}...</h5>`
         });
     }
 
