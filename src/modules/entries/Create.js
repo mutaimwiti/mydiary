@@ -7,16 +7,16 @@ import Message from "../Message";
 export default class Create {
     static init() {
         DOM.registerListener('#create_entry_form', 'submit', this);
-        this.DONE = 'Your entry was created successfully.';
     }
 
     static action() {
-        API.post('entries', DOM.getValues('title', 'body'), this);
+        API.message('Creating entry').post('entries', DOM.getValues('title', 'body'), this);
     }
 
     static handle(ok, code, data) {
         if (ok) {
-            Router.flash({message: {type: Message.SUCCESS, message: this.DONE}}).redirectToEntries();
+            let message = {type: Message.SUCCESS, message: 'Your entry was created successfully.'};
+            Router.flash({message}).redirectToEntries(`view.html?id=${data.entry.id}`);
         } else {
             Error.handle(code, data);
         }

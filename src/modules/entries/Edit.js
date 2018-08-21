@@ -7,15 +7,11 @@ import Message from "../Message";
 class Load {
     static trigger() {
         DOM.resetValues('title', 'body');
-        API.get(`entries/${Router.param('id')}`, this);
+        API.message('Loading entry').get(`entries/${Router.param('id')}`, this);
     }
 
     static handle(ok, code, data) {
-        if (ok) {
-            DOM.setValues('title', data.entry.title, 'body', data.entry.body);
-        } else {
-            Error.handle(code, data)
-        }
+        ok ? DOM.setValues('title', data.entry.title, 'body', data.entry.body) : Error.handle(code, data);
     }
 }
 
@@ -27,12 +23,13 @@ export default class Edit {
     }
 
     static action() {
-        API.put(`entries/${Router.param('id')}`, DOM.getValues('title', 'body'), this);
+        API.message('Updating entry').put(`entries/${Router.param('id')}`, DOM.getValues('title', 'body'), this);
     }
 
     static handle(ok, code, data) {
         if (ok) {
-            Message.success('The entry was updated successfully.');
+            let message = {type: Message.SUCCESS, message: 'Your entry was updated successfully.'};
+            Router.flash({message}).redirectToEntries(`view.html?id=${data.entry.id}`);
         } else {
             Error.handle(code, data);
         }

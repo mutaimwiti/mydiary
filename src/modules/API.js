@@ -1,3 +1,5 @@
+import DOM from "./DOM";
+import {has} from "./helpers";
 import Auth from "./auth/Auth";
 
 export default class API {
@@ -35,6 +37,7 @@ export default class API {
             "x-access-token": auth ? Auth.get() : null
         };
         let ok = false, code = 0;
+        DOM.blockUI(has('msg', this) ? this.msg : 'Loading');
         fetch(this.path(uri), options)
             .then((response) => {
                 ok = response.ok;
@@ -43,10 +46,17 @@ export default class API {
             })
             .then(data => {
                 context.handle(ok, code, data, this.id(uri));
+                DOM.unblockUI();
             })
             .catch((error) => {
-                console.log(error)
+                console.log(error);
+                DOM.unblockUI();
             });
+    }
+
+    static message(message) {
+        this.msg = message;
+        return this;
     }
 
     static get(path, context, auth = true) {

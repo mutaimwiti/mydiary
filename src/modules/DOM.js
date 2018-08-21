@@ -1,4 +1,5 @@
 import {has} from "./helpers";
+import Router from "./Router";
 
 export default class DOM {
     static getElement(selector) {
@@ -59,8 +60,23 @@ export default class DOM {
         }))
     }
 
-    static hide(selector) {
-        $(selector).hide();
+    static mediaMatches(query) {
+        return window.matchMedia(query).matches;
+    }
+
+    static blockUI(message) {
+        // credit to http://www.ajaxload.info/ for the generation of custom loading gif
+        let msg = `<h5><img src="${Router.address}/images/loading.gif"/> ${message}...</h5>`;
+        let css = {backgroundColor: '#322f5a', color: '#fff'};
+        // on smaller devices a wider UI blocker is required to prevent newline overflow
+        if (this.mediaMatches("(max-width: 600px)")) {
+            Object.assign(css, {left: '30%', width: '40%'});
+        }
+        $.blockUI({message: msg, css: css});
+    }
+
+    static unblockUI() {
+        $.unblockUI();
     }
 
     static remove(selector) {
