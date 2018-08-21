@@ -59,8 +59,16 @@ export default class DOM {
         }))
     }
 
-    static hide(selector) {
-        $(selector).hide();
+    static blockUI(message) {
+        // credit to http://www.ajaxload.info/ for the generation of custom loading gif
+        $.blockUI({
+            css: {backgroundColor: '#322f5a', color: '#fff'},
+            message: `<h5><img src="../../images/loading.gif"/> ${message}...</h5>`
+        });
+    }
+
+    static unblockUI() {
+        $.unblockUI();
     }
 
     static remove(selector) {

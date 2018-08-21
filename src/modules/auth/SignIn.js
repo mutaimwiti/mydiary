@@ -18,7 +18,7 @@ export default class SignIn {
     }
 
     static action() {
-        API.post('login', DOM.getValues('email', 'password'), this, false);
+        API.message('Signing in').post('login', DOM.getValues('email', 'password'), this, false);
     }
 
     static handle(ok, code, data) {
@@ -26,11 +26,7 @@ export default class SignIn {
             Auth.set(data.token);
             Router.redirectToEntries();
         } else {
-            if (code === 401) {
-                Message.error(data.message);
-            } else {
-                Error.handle(code, data);
-            }
+            code === 401 ? Message.error(data.message) : Error.handle(code, data);
         }
     }
 }

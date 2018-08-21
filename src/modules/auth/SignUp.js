@@ -7,7 +7,6 @@ import Message from "../Message";
 export default class SignUp {
     static init() {
         DOM.registerListener('#sign_up_form', 'submit', this);
-        this.DONE = 'Successfully signed up. Sign in to get started!';
     }
 
     static action() {
@@ -15,17 +14,15 @@ export default class SignUp {
         if (values.password !== values.password_conf) {
             Message.error('The passwords do not match.');
         } else {
-            API.post('signup', values, this, false);
+            API.message('Signing up').post('signup', values, this, false);
         }
     }
 
     static handle(ok, code, data) {
         if (ok) {
-            let data = {
-                data: {email: DOM.getValue('email')},
-                message: {type: Message.SUCCESS, message: this.DONE}
-            };
-            Router.flash(data).redirect('signin.html');
+            let message = {type: Message.SUCCESS, message: 'Successfully signed up. Sign in to get started!'};
+            let data = {email: DOM.getValue('email')};
+            Router.flash({data, message}).redirect('signin.html');
         } else {
             Error.handle(code, data);
         }

@@ -6,7 +6,7 @@ import Router from "../Router";
 
 export default class View {
     static init() {
-        API.get(`entries/${Router.param('id')}`, this);
+        API.message('Loading entry').get(`entries/${Router.param('id')}`, this);
     }
 
     static handle(ok, code, data) {

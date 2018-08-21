@@ -6,7 +6,7 @@ import Message from "../Message";
 
 export default class Index {
     static init() {
-        API.get('entries', this);
+        API.message('Loading entries').get('entries', this);
     }
 
     static handle(ok, code, data) {
