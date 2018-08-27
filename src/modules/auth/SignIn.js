@@ -23,7 +23,7 @@ export default class SignIn {
 
     static handle(ok, code, data) {
         if (ok) {
-            Auth.set(data.token);
+            Auth.set(data);
             Router.redirectToEntries();
         } else {
             code === 401 ? Message.error(data.message) : Error.handle(code, data);
