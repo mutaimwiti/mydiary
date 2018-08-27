@@ -3,12 +3,16 @@ export default class Store {
         return localStorage.getItem(key);
     }
 
-    static set(key, value) {
-        localStorage.setItem(key, value);
+    static set(...items) {
+        for (let x = 0; x < items.length; x += 2) {
+            localStorage.setItem(items[x], items[x + 1]);
+        }
     }
 
-    static remove(key) {
-        localStorage.removeItem(key);
+    static remove(...keys) {
+        for (let key of keys) {
+            localStorage.removeItem(key);
+        }
     }
 
     static pop(key) {
