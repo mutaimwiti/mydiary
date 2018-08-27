@@ -4,27 +4,27 @@ import Router from "../Router";
 class Auth {
     static init() {
         this.KEY = 'auth-token';
+        this.EXP = 'auth-expiry';
     }
 
     static get() {
-        return Store.get(this.KEY);
+        let token = Store.get(this.KEY);
+        let expiry = Store.get(this.EXP);
+        if (token && expiry) {
+            if ((new Date().getTime()) < (expiry * 1000)) {
+                return token;
+            }
+        }
+        this.clear();
+        return null;
     }
 
-    static set(token) {
-        Store.set(this.KEY, token);
+    static set({token, expiry}) {
+        Store.set(this.KEY, token, this.EXP, expiry);
     }
 
     static clear() {
-        Store.remove(this.KEY);
-    }
-
-    static check() {
-        // the sign up and sign in pages are not protected pages
-        if (Router.uri !== 'signup.html' && Router.uri !== 'signin.html') {
-            if (!this.get()) {
-                this.require();
-            }
-        }
+        Store.remove(this.KEY, this.EXP);
     }
 
     static require() {
