@@ -191,3 +191,7 @@ Entry - Rules applied to diary entry.
 #app_success {
     border-color: green;
 }
+
+#profile a{
+    text-decoration: none;
+}
