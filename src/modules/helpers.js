@@ -30,5 +30,5 @@ export const timeSince = (date) => {
     if (elapsed > 1) {
         return elapsed + " minutes ago";
     }
-    return Math.floor(seconds) + " seconds  ago";
+    return Math.floor(seconds) + " seconds ago";
 };

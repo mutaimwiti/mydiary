@@ -11,10 +11,25 @@
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
     "babel-preset-env": "^1.7.0",
+    "jest": "^23.5.0",
     "webpack": "^4.16.5"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --colors || true",
+    "test:watch": "jest --colors --watch || true"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/modules/**/*.js"
+    ],
+    "moduleFileExtensions": [
+      "js"
+    ],
+    "moduleDirectories": [
+      "node_modules"
+    ],
+    "setupTestFrameworkScriptFile": "./test/setup.js"
   },
   "repository": {
     "type": "git",
