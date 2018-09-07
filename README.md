@@ -26,30 +26,30 @@ Visit the application here [MyDiary](https://mutaimwiti.github.io/mydiary/)
 1. node - [Node.js](https://nodejs.org/en/download/)
 
 #### Install dependencies
-This project uses `yarn` for package management. 
+This project uses [yarn](https://yarnpkg.com/en/docs/install) for package management. 
 
->- To install dependencies:
+To install dependencies:
 
-        yarn
+`yarn`
 
 #### Building
->- To build for production:
+To build for production:
 
-        yarn build
+`yarn build`
 
->- To build for development:
+To build for development:
 
-        yarn dev
+`yarn dev`
 
->- To build based on changes:
+To build based on changes:
 
-        yarn watch
+`yarn watch`
 
 #### Testing
->- To run tests:
+To run tests:
 
-        yarn test
+`yarn test`
 
->- To run tests based on changes:
+To run tests based on changes:
 
-        yarn test:watch
+`yarn test:watch`
