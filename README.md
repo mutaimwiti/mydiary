@@ -1,4 +1,6 @@
 # mydiary
+[![Build Status](https://travis-ci.org/mutaimwiti/mydiary.svg?branch=development)](https://travis-ci.org/mutaimwiti/mydiary)
+[![Coverage Status](https://coveralls.io/repos/github/mutaimwiti/mydiary/badge.svg?branch=development)](https://coveralls.io/github/mutaimwiti/mydiary?branch=development)
 
 Visit [MyDiary](https://mutaimwiti.github.io/mydiary/)
 
