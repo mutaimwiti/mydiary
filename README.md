@@ -10,13 +10,46 @@ This is a frontend application consuming [mydiary-v1 API](https://github.com/mut
 
 The application allows users to:
 
-1. Signup
-2. Login
-3. Create diary entries
-4. View a specific diary entry
-5. View all their diary entries
-5. Edit their diary entries
-6. Delete their diary entries
-7. View the number of entries they have so far.
+1. Sign up
+2. Sign in
+3. Sign out
+4. Create diary entries
+5. View a specific diary entry
+6. View all their diary entries
+7. Edit their diary entries
+8. Delete their diary entries
+9. View their profile on the app.
 
 Visit the application here [MyDiary](https://mutaimwiti.github.io/mydiary/)
+
+#### Requirements
+1. node - [Node.js](https://nodejs.org/en/download/)
+
+#### Install dependencies
+This project uses `yarn` for package management. 
+
+>- To install dependencies:
+
+        yarn
+
+#### Building
+>- To build for production:
+
+        yarn build
+
+>- To build for development:
+
+        yarn dev
+
+>- To build based on changes:
+
+        yarn watch
+
+#### Testing
+>- To run tests:
+
+        yarn test
+
+>- To run tests based on changes:
+
+        yarn test:watch
