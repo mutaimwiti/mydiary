@@ -9,11 +9,11 @@ describe('has', () => {
         expect(has('foo', {})).toEqual(false);
     });
 
-    it('returns false if prop is not set to undefined', () => {
+    it('returns false if prop is set to undefined', () => {
         expect(has('foo', {foo: undefined})).toEqual(false);
     });
 
-    it('returns false if prop is not set to null', () => {
+    it('returns false if prop is set to null', () => {
         expect(has('foo', {foo: null})).toEqual(false);
     });
 });
