@@ -1,8 +1,8 @@
-import DOM from "../DOM";
-import API from "../API";
-import Error from "../Error";
-import Router from "../Router";
-import Message from "../Message";
+import DOM from "../../modules/DOM";
+import API from "../../modules/API";
+import Error from "../../modules/Error";
+import Router from "../../modules/Router";
+import Message from "../../modules/Message";
 
 export default class Create {
     static init() {

@@ -1,17 +1,17 @@
-import DOM from "./DOM";
-import Router from "./Router";
-import Auth from "./auth/Auth";
-import Message from "./Message";
-import Profile from "./Profile";
-import Logout from "./auth/Logout";
-import SignIn from "./auth/SignIn";
-import SignUp from "./auth/SignUp";
-import ViewEntry from "./entries/View";
-import EditEntry from "./entries/Edit";
-import ListEntries from "./entries/Index";
-import CreateEntry from "./entries/Create";
+import DOM from "./modules/DOM";
+import Auth from "./modules/Auth";
+import Router from "./modules/Router";
+import Message from "./modules/Message";
+import Profile from "./components/Profile";
+import Logout from "./components/auth/Logout";
+import SignIn from "./components/auth/SignIn";
+import SignUp from "./components/auth/SignUp";
+import ViewEntry from "./components/entries/View";
+import EditEntry from "./components/entries/Edit";
+import ListEntries from "./components/entries/Index";
+import CreateEntry from "./components/entries/Create";
 
-class Page {
+class Bootstrap {
     static init() {
         this.URI = Router.uri;
         this.URL = Router.url;
@@ -30,7 +30,7 @@ class Page {
         }
     }
 
-    static load() {
+    static boot() {
         if (this.IS_AUTH_PAGE) {
             this.AUTH ? Router.redirectToEntries() : this.loadAuthPage();
         } else {
@@ -76,6 +76,6 @@ class Page {
     }
 }
 
-Page.init();
+Bootstrap.init();
 
-export default Page;
+export default Bootstrap;

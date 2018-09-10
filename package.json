@@ -25,15 +25,9 @@
   },
   "jest": {
     "collectCoverage": true,
-    "collectCoverageFrom": [
-      "src/modules/**/*.js"
-    ],
-    "moduleFileExtensions": [
-      "js"
-    ],
-    "moduleDirectories": [
-      "node_modules"
-    ],
+    "collectCoverageFrom": ["src/app/**/*.js"],
+    "moduleFileExtensions": ["js"],
+    "moduleDirectories": ["node_modules"],
     "setupTestFrameworkScriptFile": "./test/setup.js"
   },
   "repository": {

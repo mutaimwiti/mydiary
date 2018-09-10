@@ -1,5 +1,5 @@
 import Store from "./Store";
-import {has} from "./helpers";
+import {has} from "../helpers";
 
 class Router {
     static init() {
