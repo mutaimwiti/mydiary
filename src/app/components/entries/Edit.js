@@ -1,8 +1,8 @@
-import API from "../API";
-import DOM from "../DOM";
-import Error from "../Error";
-import Router from "../Router";
-import Message from "../Message";
+import API from "../../modules/API";
+import DOM from "../../modules/DOM";
+import Error from "../../modules/Error";
+import Router from "../../modules/Router";
+import Message from "../../modules/Message";
 
 class Load {
     static trigger() {

@@ -1,8 +1,8 @@
-import API from "../API";
-import DOM from "../DOM";
-import Error from "../Error";
 import Delete from "./Delete";
-import Message from "../Message";
+import API from "../../modules/API";
+import DOM from "../../modules/DOM";
+import Error from "../../modules/Error";
+import Message from "../../modules/Message";
 
 export default class Index {
     static init() {

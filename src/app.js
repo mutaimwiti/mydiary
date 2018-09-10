@@ -1,3 +1,3 @@
-import Page from './modules/Page'
+import Bootstrap from './app/Bootstrap'
 
-(() => Page.load())();
+(() => Bootstrap.boot())();

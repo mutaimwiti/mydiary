@@ -1,4 +1,4 @@
-import Auth from "./auth/Auth";
+import Auth from "./Auth";
 import Message from "./Message";
 
 export default class Error {

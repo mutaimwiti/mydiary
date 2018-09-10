@@ -1,8 +1,8 @@
-import API from "../API";
-import DOM from "../DOM";
-import Error from "../Error";
 import Delete from "./Delete";
-import Router from "../Router";
+import API from "../../modules/API";
+import DOM from "../../modules/DOM";
+import Error from "../../modules/Error";
+import Router from "../../modules/Router";
 
 export default class View {
     static init() {

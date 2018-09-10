@@ -1,4 +1,4 @@
-import {has, timeSince} from "../../src/modules/helpers";
+import {has, timeSince} from "../../src/app/helpers";
 
 describe('has', () => {
     it('returns true if prop is set', () => {

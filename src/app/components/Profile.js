@@ -1,7 +1,7 @@
-import DOM from "./DOM";
-import API from "./API";
-import Error from "./Error";
-import {timeSince} from "./helpers";
+import DOM from "../modules/DOM";
+import API from "../modules/API";
+import Error from "../modules/Error";
+import {timeSince} from "../helpers";
 
 export default class Profile {
     static init() {
@@ -17,7 +17,7 @@ export default class Profile {
     }
 
     static display({name, since, entry_count, latest_entry}) {
-        let count = `You have no entries...<a href="entries/create.html">create entry</a>.`, latest = ``;
+        let count = `You have no entries...<a href="app/entries/create.html">create entry</a>.`, latest = ``;
         if (entry_count) {
             count = `Number of entries: ${entry_count}`;
             latest = `Latest entry: <a href="entries/view.html?id=${latest_entry.id}">${latest_entry.title}</a>`;

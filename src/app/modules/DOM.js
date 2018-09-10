@@ -1,5 +1,5 @@
-import {has} from "./helpers";
 import Router from "./Router";
+import {has} from "../helpers";
 
 export default class DOM {
     static getElement(selector) {

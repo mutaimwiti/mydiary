@@ -1,5 +1,5 @@
-import DOM from "../DOM";
-import Auth from "./Auth";
+import DOM from "../../modules/DOM";
+import Auth from "../../modules/Auth";
 
 export default class Logout {
     static init() {

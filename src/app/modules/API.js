@@ -1,6 +1,6 @@
 import DOM from "./DOM";
-import {has} from "./helpers";
-import Auth from "./auth/Auth";
+import Auth from "./Auth";
+import {has} from "../helpers";
 
 export default class API {
     static get URL() {
