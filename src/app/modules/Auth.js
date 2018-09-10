@@ -29,7 +29,7 @@ class Auth {
 
     static require() {
         this.clear();
-        Router.redirect('signin.html');
+        Router.redirect('auth/signin.html');
     }
 
     static logout() {

@@ -4,6 +4,7 @@ module.exports = {
         vendor: './src/vendor.js'
     },
     output: {
+        path: __dirname + "/static/js",
         filename: './[name].js'
     },
     module: {
