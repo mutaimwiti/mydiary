@@ -23,6 +23,8 @@ class Router {
         let address = window.location.href;
         if (address.includes('entries')) {
             address = address.substring(0, address.lastIndexOf('entries'))
+        } else if (address.includes('auth')) {
+            address = address.substring(0, address.lastIndexOf('auth'))
         }
         return address.substring(0, address.lastIndexOf('/'));
     }

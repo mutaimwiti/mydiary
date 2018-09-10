@@ -22,7 +22,7 @@ export default class SignUp {
         if (ok) {
             let message = {type: Message.SUCCESS, message: 'Successfully signed up. Sign in to get started!'};
             let data = {email: DOM.getValue('email')};
-            Router.flash({data, message}).redirect('signin.html');
+            Router.flash({data, message}).redirect('auth/signin.html');
         } else {
             Error.handle(code, data);
         }
